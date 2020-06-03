@@ -61,21 +61,16 @@ if (empty($_GET['id'])) {
 ?>
 <section class="row mt-4">
     <div class="shadow border rounded mx-auto my-auto w-25 ">
-        <?php if (isset($_SESSION['message'])) { ?>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <?= $_SESSION['message'] ?>
-                <a href="unset_message.php" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-        <?php } ?>
-        <?php if ($framework) { ?>
+
+        <div  class="card-header "><p>Create framework</p></div>
+
+
             <form method="post" action="edit_framework.php?id=<?php echo $framework->id; ?>" class="form-group p-4 ">
                 <label for="name">Name: </label>
                 <input type="text" name="name" id="name" value="<?php echo $framework->name ?>" class="form-control">
                 <?php if (!isset($_SESSION['delete_framework'])) { ?>
                     <div class="border-0 d-flex justify-content-around mt-4">
-                        <input type="submit" name="submit" value="Save" class="btn shadow border">
+                        <input type="submit" name="submit" value="Save" class="btn shadow border edit-form">
                         <input type="submit" name="submit" value="Delete" class="btn btn-outline-danger shadow">
                     </div>
                 <?php } ?>
@@ -110,4 +105,4 @@ if (empty($_GET['id'])) {
 include('layout/footer.php')
 ?>
 
-
+<script type="" src="js/script.js"></script>

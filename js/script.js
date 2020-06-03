@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $(".update_form").off('click').click(function(event) { //Trigger on form submit
+    $(".post-form").off('click').click(function(event) { //Trigger on form submit
+        $('.alert-dismissible').remove();
         event.preventDefault() ; //Prevent the default submit
         event.stopPropagation() ;
         $('.throw_error').empty(); //Clear the messages first
@@ -15,6 +16,7 @@ $(document).ready(function() {
         /*var idMessage = $(this).closest('form').attr('action');*/
 
 
+console.log(postForm);
 
 
         $.ajax({ //Process the form using $.ajax()
@@ -24,15 +26,18 @@ $(document).ready(function() {
             dataType  : 'json',
             success   : function(data) {
                 if(data !==''){
-                    if(!data.errors)
-                $('form[id="' + urlClass + '"]').fadeIn(1000).prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.errors.name + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
-                }else[]
-            },
-            error: function (data) {
-                if(data !==''){
-                    $('form[id="' + urlClass + '"]').fadeIn(1000).prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.posted + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
+
+                    if(data.errors) {
+                        $('form[id="' + urlClass + '"]').prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.errors.name + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
+                    }else{
+                        $('form[id="' + urlClass + '"]').prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.posted + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
+                    }
+
                 }
-            }
+            },
+            error: function () {
+                alert('Something happend with the connection')
+            },
         });
         return false;
 

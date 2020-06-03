@@ -9,24 +9,27 @@ class FrameworksController
 
 
 
-    public function store($post){
+    public static function store($post){
 
         $framework = new Framework();
         if ($framework) {
             $framework->name = trim($post['name']);
-            $framework->create();
+            return $framework->create();
 
         }
     }
 
-    public function edit($id,$post){
+    public static function edit($id,$post){
         $framework = Framework::find_byId($id);
 
         if ($framework) {
             $framework->name = trim($post['name']);
-            $framework->update();
+            return $framework->update();
 
         }
     }
+
+
+
 
 }

@@ -3,16 +3,18 @@
 require_once('database/init.php');
 
 
-$errors = array(); //To store errorsS
+$errors = array(); //To store errors
 $form_data = array(); //Pass back the data to `form.php`
 
-/* Validate the form on the server side */
 
+if((isset($_POST['submit']) || isset($_POST['create_framework'])) == 'Create' ){        //control Name button
 
+/* Validate duplication */
+if (Framework::if_exists('name',$_POST['name'])) {
 
-if (Framework::if_exists('name',$_POST['name'])){
-    $errors["name"] = Framework::if_exists('name',$_POST['name'],true)['message'];
+    $errors["name"] = Framework::if_exists('name', $_POST['name'], true)['message'];
 }
+/* Validate the form on the server side */
 
 if (empty($_POST['name'])) { //Name cannot be empty
     $errors['name'] = 'Name cannot be blank';
@@ -24,15 +26,49 @@ if (!empty($errors)) { //If errors in validation
 }
 else { //If not, process the form, and return true on success
 
-    /*if (!empty($_POST) && ($_POST['submit'] == 'Create' || $_POST['create_framework'] == 'Create')) {*/
-       FrameworksController::store($_POST);
-    /*}*/
+       if(FrameworksController::store($_POST)){
+           $form_data['success'] = true;
+           $form_data['posted'] = 'Successfully created';
+       }else{
+           $form_data['success'] = true;
+           $form_data['posted'] = 'Something went wrong';
+       }
 
-    $form_data['success'] = true;
-    $form_data['posted'] = 'Successfully created ';
 }
 
+}elseif ($_POST['submit'] == 'Save')
 
+{
+
+    if (Framework::if_exists('name',$_POST['name'])) {
+
+        $errors["name"] = Framework::if_exists('name', $_POST['name'], true)['message'];
+    }
+    /* Validate the form on the server side */
+
+    if (empty($_POST['name'])) { //Name cannot be empty
+        $errors['name'] = 'Name cannot be blank';
+    }
+
+    if (!empty($errors)) { //If errors in validation
+        $form_data['success'] = false;
+        $form_data['errors']  = $errors;
+    }
+    else { //If not, process the form, and return true on success
+        $id=$_GET['id'];
+        $post=$_POST;
+
+        if(FrameworksController::edit($id,$post)){
+            $form_data['success'] = true;
+            $form_data['posted'] = 'Successfully updated';
+        }else{
+            $form_data['success'] = true;
+            $form_data['posted'] = 'Something went wrong';
+        }
+
+    }
+
+}
 
 
 //Return the data back to form.php

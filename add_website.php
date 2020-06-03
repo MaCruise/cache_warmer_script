@@ -58,7 +58,7 @@ if (!empty($_POST) && isset($_POST['submit']) && ($_POST['submit'] == 'Create'))
                 <?php } ?>
 
                 <div class="border-0 d-flex justify-content-around mt-4">
-                    <input  name="submit" value="Create" class="btn shadow-sm border update_form">
+                    <input  name="submit" value="Create" class="btn shadow-sm border post-form">
                 </div>
             </form>
         </div>
@@ -73,7 +73,7 @@ if (!empty($_POST) && isset($_POST['submit']) && ($_POST['submit'] == 'Create'))
                 <span class="throw_error"></span>
                 <div class="border-0 d-flex justify-content-around mt-4">
                     <input  name="create_framework" value="Create"
-                           class="btn shadow-sm border update_form">
+                           class="btn shadow-sm border post-form">
                 </div>
 
 

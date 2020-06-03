@@ -19,7 +19,7 @@ require_once(APP_PATH.DS.'Dbobject.php');
 require_once(APP_PATH.DS.'User.php');
 require_once(APP_PATH.DS.'Website.php');
 require_once(APP_PATH.DS.'Framework.php');
-require_once(CONTROLLER_PATH.DS.'FrameworkController.php');
+require_once(CONTROLLER_PATH.DS.'FrameworksController.php');
 
 
 

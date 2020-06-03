@@ -37,8 +37,8 @@ class Queries
         } else {
             return false;
         }
-        $database->query($sql);
-        return (mysqli_affected_rows($database->connection) == 1);
+/*        $database->query($sql);
+        return (mysqli_affected_rows($database->connection) == 1);*/
     }
 
 
