@@ -14,6 +14,7 @@ class FrameworksController
         $framework = new Framework();
         if ($framework) {
             $framework->name = trim($post['name']);
+
             return $framework->create();
 
         }
@@ -28,6 +29,16 @@ class FrameworksController
 
         }
     }
+
+
+    public static function delete($id){
+        $framework = Framework::find_byId($id);
+
+        return $framework->delete();
+
+
+    }
+
 
 
 

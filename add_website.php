@@ -5,7 +5,7 @@ include_once('layout/content-top.php');
 if (!$session->is_signed_in()) {
     redirect('login.php');
 }
-var_dump(Framework::if_exists('name', $_POST['name']));
+
 
 $frameworks = Framework::find_all();
 
@@ -90,4 +90,4 @@ include('layout/footer.php')
 ?>
 
 
-<script type="" src="js/script.js"></script>
+

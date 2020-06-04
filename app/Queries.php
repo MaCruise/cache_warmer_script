@@ -77,8 +77,15 @@ class Queries
 
         $bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}'"));
         if ($message){
-            $message = "$table : $input already in system";
-            return compact('bool','message');
+            switch ($bool) {
+                case true:
+                    $message = ucfirst($table)." : $input already in system";
+                    return compact('bool', 'message');
+                case false :
+                    $message = ucfirst($table)." : $input not found ";
+                    return compact('bool', 'message');
+            }
+
         }
 
         return $bool;

@@ -37,26 +37,28 @@ $frameworks = Framework::find_all();
                 <tbody class="card-body">
                 <?php foreach ($frameworks as $framework){?>
                     <tr>
-                        <th scope="row"><?php echo $framework->id; ?></th>
+                        <th scope="row" class="valueRowId"><?php echo $framework->id; ?></th>
 
                         <td><?php echo $framework->name; ?></td>
                         <td><a class="btn btn-outline-info rounded align-self-center"
-                               href="edit_framework.php?id=<?php echo $framework->id; ?>"><svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z"/>
-                                </svg></a>
+                               href="edit_framework.php?id=<?php echo $framework->id; ?>">
+                                <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z"/>
+                                </svg>
+                            </a>
                         </td>
                         <td>
-                            <form method="post" action="edit_framework.php?id=<?php echo $framework->id; ?>">
-                                <button type="submit" name="submit" value="Delete_Framework"
-                                        class="btn btn-outline-danger rounded shadow-sm align-self-center">
-                                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
-                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd"
-                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                    </svg>
-                                </button>
-                            </form>
+
+                            <a href="" name="submit"  value="Delete_Framework"  class="btn btn-outline-danger rounded shadow-sm align-self-center button-delete_form">
+                                <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </a>
                         </td>
                     </tr>
                 <?php }?>
@@ -83,27 +85,30 @@ $frameworks = Framework::find_all();
     </div>
 
 </section>
-<?php if (isset($_SESSION['delete_framework'])) { ?>
-    <form method="post" action="edit_framework.php?id=<?php echo $_GET['id'] ?>" class="form-group p-4 ">
-        <div class="card shadow-sm position-absolute absolutemiddle">
-            <div id="are_you_sure" class="d-flex flex-column  p-4 ">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <?= $_SESSION['delete_framework'] ?>
-                    <a href="" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
-                </div>
-                <div class="border-0 d-flex justify-content-around">
-                    <input type="submit" name="submit_framework" value="No" class="btn shadow border">
-                    <input type="submit" name="submit" value="Yes" class="btn btn-outline-danger shadow">
-                </div>
+
+<form method="post" id="" name="framework_delete" class="form-group p-4 ">
+    <div class="card shadow-sm position-absolute absolutemiddle form-dnone">
+        <div id="are_you_sure" class="d-flex flex-column  p-4 ">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span>Are you sure?</span>
+                <a type="button" class="close" onclick="$('.form-dnone').hide()">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+
+            <input type="hidden" name="valueId" value="" >
+            <div class="border-0 d-flex justify-content-around">
+                <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
+                <button  name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</button>
             </div>
         </div>
-    </form>
-<?php } ?>
+    </div>
+</form>
+
 
 <?php
 
 include('layout/footer.php');
 
 ?>
+

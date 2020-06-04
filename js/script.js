@@ -1,36 +1,58 @@
-$(document).ready(function() {
-    $(".post-form").off('click').click(function(event) { //Trigger on form submit
-        $('.alert-dismissible').remove();
-        event.preventDefault() ; //Prevent the default submit
-        event.stopPropagation() ;
+
+$('.alert-message').hide();
+$('.form-dnone').hide();
+$('.button-delete_form').on('click',function(event){
+    event.preventDefault(); //Prevent the default submit
+    $('.form-dnone').show();
+    $('input[name="valueId"]').attr("value", $('.valueRowId').html());
+    console.log( $('.input[name="valueID"]').attr('value', $('.valueRowId').text()));
+});
+$
+$( document ).ready(function() {
+
+
+    $(".fetch-form").on('click',function (event) { //Trigger on form submit
+        event.preventDefault(); //Prevent the default submit
+        event.stopPropagation();
+
+
         $('.throw_error').empty(); //Clear the messages first
 
-
         //Validate fields if required using jQuery
+        var form = {name:$(this).closest('form').attr('name')};
+
+        var formGetPostData = $(this).closest('form').serializeArray()
+
+        /*formGetPostData = {};
+
+       $(dataObj).each(function(i,field){
+           formGetPostData[field.name] = field.value;
+        })*/
+
+        var urlRoute = 'routeController.php'
+
+        console.log(form);
 
 
-        var postForm = $(this).closest('form').serialize();
-
-        var urlClass = $(this).closest('form').attr( 'id');
-
-        /*var idMessage = $(this).closest('form').attr('action');*/
-
-
-console.log(postForm);
+        console.log(formGetPostData);
+        console.log(urlRoute);
 
 
         $.ajax({ //Process the form using $.ajax()
-            type      : 'POST', //Method type
-            url       : urlClass, //Your form processing file URL
-            data      : postForm, //Forms name
-            dataType  : 'json',
-            success   : function(data) {
-                if(data !==''){
+            type: 'POST', //Method type
+            url: urlRoute, //Your form processing file URL
+            data: {formGetPostData,form}, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                if (data !== '') {
 
-                    if(data.errors) {
-                        $('form[id="' + urlClass + '"]').prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.errors.name + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
-                    }else{
-                        $('form[id="' + urlClass + '"]').prepend("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + data.posted + "<a href='' type='button' class='close' data-dismiss='alert' aria-label='Close''><span aria-hidden='true'>&times;</span></a></div>");
+                    if (data.errors) {
+                        $('.alert-message').show();
+                        $('.throw_error').html('<span class="throw_error">'+data.errors.name+'</span>');
+                    } else {
+                        $('.throw_error').html('<span class="throw_error">'+data.posted+'</span>');
+                        $('.alert-message').removeClass("alert-warning").addClass("alert-success").show();
+                        $('.form-dnone').hide();
                     }
 
                 }
@@ -40,8 +62,6 @@ console.log(postForm);
             },
         });
         return false;
-
-
 
 
     });

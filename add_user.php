@@ -6,8 +6,10 @@ if (!$session->is_signed_in()) {
     redirect('login.php');
 }
 
-var_dump($_POST);
+
 if (isset($_POST) && !empty($_POST) && isset($_POST['submit']) && ($_POST['submit'] == 'Create')) {
+    var_dump($_REQUEST);
+    die();
 
     if (User::if_exists('username', trim($_POST['username']))) {
 
