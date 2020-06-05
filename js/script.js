@@ -4,7 +4,7 @@ $('.form-dnone').hide();
 $('.button-delete_form').on('click',function(event){
     event.preventDefault(); //Prevent the default submit
     $('.form-dnone').show();
-    $('input[name="valueId"]').attr("value", $('.valueRowId').html());
+    $('input[name="valueId"]').attr("value", $(this).closest('tr').find(".valueRowId").text());
     console.log( $('.input[name="valueID"]').attr('value', $('.valueRowId').text()));
 });
 $
@@ -47,8 +47,10 @@ $( document ).ready(function() {
                 if (data !== '') {
 
                     if (data.errors) {
-                        $('.alert-message').show();
+
                         $('.throw_error').html('<span class="throw_error">'+data.errors.name+'</span>');
+                        $('.alert-message').removeClass("alert-success").addClass("alert-warning").show();
+
                     } else {
                         $('.throw_error').html('<span class="throw_error">'+data.posted+'</span>');
                         $('.alert-message').removeClass("alert-warning").addClass("alert-success").show();

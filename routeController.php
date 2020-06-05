@@ -24,14 +24,18 @@ switch ($className) {
     case 'Framework':
         $className = Framework::class;
         $classController = FrameworksController::class;
+        $formInputExcluder = [];
+        $checkIfExists = ["name"];
         break;
     case 'User':
         $className = User::class;
         $classController = UsersController::class;
+        $formInputExcluder = ["name","email"];
         break;
     case 'Website':
         $className = Website::class;
         $classController = WebsitesController::class;
+        $formInputExcluder = ["url"];
         break;
 }
 
@@ -54,10 +58,18 @@ if (!empty($errors)) { //If errors in validation
 
         case 'create' :
 
-            $className::if_exists('name', $_REQUEST['formGetPostData']['name'], $message = true)['bool']
-                ? $errors['name'] = $className::if_exists('name', $_REQUEST['formGetPostData']['name'], true)['message']
-                : null;
 
+            foreach($checkIfExists as $value){
+
+                isset($_REQUEST['formGetPostData'][$value])
+                    ? $bool = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['bool']
+                    : /*alert_message('This '.$value.' not found. pls remove out $checkIfExists')*/ null;
+
+                    $bool
+                        ?$errors['name'] = $className::if_exists_single('name', $_REQUEST['formGetPostData']['name'], true)['message']
+                        :null;
+                    ;
+            }
 
             !empty($_REQUEST['formGetPostData']['name'])
                 ? null

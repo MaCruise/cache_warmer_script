@@ -89,7 +89,7 @@ $frameworks = Framework::find_all();
 <form method="post" id="" name="framework_delete" class="form-group p-4 ">
     <div class="card shadow-sm position-absolute absolutemiddle form-dnone">
         <div id="are_you_sure" class="d-flex flex-column  p-4 ">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <span>Are you sure?</span>
                 <a type="button" class="close" onclick="$('.form-dnone').hide()">
                     <span aria-hidden="true">&times;</span>
@@ -99,7 +99,7 @@ $frameworks = Framework::find_all();
             <input type="hidden" name="valueId" value="" >
             <div class="border-0 d-flex justify-content-around">
                 <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
-                <button  name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</button>
+                <a href="#" name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</a>
             </div>
         </div>
     </div>

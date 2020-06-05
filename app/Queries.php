@@ -73,7 +73,7 @@ class Queries
 
 
 
-    public static function if_exists($table,$input,$message=false){
+    public static function if_exists_single($table,$input,$message=false){
 
         $bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}'"));
         if ($message){
@@ -91,6 +91,28 @@ class Queries
         return $bool;
 
     }
+
+    /*public static function if_exists($table = [], $input,$message = [])
+    {
+        $message=[];
+        $bool = [];
+        foreach ($table as $tableValue) {
+
+            $bool[] = !empty(static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE {$tableValue}='{$input[$tableValue]}'"))
+                ?$message[] = ucfirst($tableValue) . " : $input[$tableValue] already in system"
+                :$message[] = ucfirst($tableValue) . " : $input[$tableValue] not found ";
+
+
+
+
+
+        }
+        var_dump(compact('bool', 'message'));
+        die('test');
+        return compact('bool', 'message');
+
+
+    }*/
 
 
 

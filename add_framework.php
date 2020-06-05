@@ -10,8 +10,8 @@ if (!$session->is_signed_in()) {
 
 ?>
 <section class="row mt-4">
-    <div class="col-12">
-        <div class='alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message' role='alert'>
+    <div class="col-11 mx-auto vh-5">
+        <div class='alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0' role='alert'>
             <span class="throw_error"></span>
             <a  type='button' class='close' onclick="this.parentElement.style.display='none';"  >
             <span aria-hidden='true'>&times;</span>
