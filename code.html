@@ -6,10 +6,9 @@
 </head>
 <body>
 <div class="border-0 d-flex flex-column mt-4">
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <?= $_SESSION['delete_framework'] ?>
-        <a href="unset_message.php" type="button" class="close" data-dismiss="alert"
-           aria-label="Close">
+    <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert">
+
+        <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
             <span aria-hidden="true">&times;</span>
         </a>
     </div>

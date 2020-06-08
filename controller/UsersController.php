@@ -7,34 +7,37 @@ class UsersController
 {
 
 
-
-
-    public static function store(Framework $framework){
-
-
-        if ($framework) {
-            $framework->name = trim($framework['name']);
-
-            return $framework->create();
+    public static function store($post)
+    {
+        $user = new User;
+        if ($user) {
+            $user->username = trim($post['username']);
+            $user->email = trim($post['email']);
+            $user->password = hash('sha256', trim($post['password']));
+            return $user->create();
 
         }
     }
 
     public static function edit($id,$post){
-        $framework = Framework::find_byId($id);
+        $user = Framework::find_byId($id);
 
-        if ($framework) {
-            $framework->name = trim($post['name']);
-            return $framework->update();
+        if ($user) {
+            $user->username = trim($post['username']);
+            $user->email = trim($post['email']);
+            !empty($_POST['password'])
+                ? $user->password = hash('sha256', trim($_POST['password']))
+                : null;
+            return $user->update();
 
         }
     }
 
 
     public static function delete($id){
-        $framework = Framework::find_byId($id);
+        $user = Framework::find_byId($id);
 
-        return $framework->delete();
+        return $user->delete();
 
 
     }

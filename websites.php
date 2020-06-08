@@ -88,9 +88,9 @@ $websites = Website::find_all();
     <form method="post" action="edit_website.php?id=<?php echo $_GET['id'] ?>" class="form-group p-4 ">
         <div class="card shadow-sm position-absolute absolutemiddle">
             <div id="are_you_sure" class="d-flex flex-column  p-4 ">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert">
                     <?= $_SESSION['delete_website'] ?>
-                    <a href="" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
                         <span aria-hidden="true">&times;</span>
                     </a>
                 </div>

@@ -51,7 +51,7 @@ $frameworks = Framework::find_all();
                         </td>
                         <td>
 
-                            <a href="" name="submit"  value="Delete_Framework"  class="btn btn-outline-danger rounded shadow-sm align-self-center button-delete_form">
+                            <a href="" name="submit"  value="framework_delete"  class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
                                 <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -66,44 +66,39 @@ $frameworks = Framework::find_all();
             </table>
         </div>
     </div>
-    <div class="col-2 mr-auto">
+    <div class="col-2 mr-auto mt-4">
         <ul class=" list-unstyled text-center list-group">
 
             <li>
-                <?php if (isset($_SESSION['message'])) { ?>
-                    <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                        <?= $_SESSION['message'] ?>
-                        <a href="unset_message.php" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-
-
-                    </div>
-                <?php } unset($_SESSION['message']); ?>
+                <div class='alert alert-warning alert-dismissible fade show mx-auto alert-message float-right mb-0' role='alert'>
+                    <span class="throw_error"></span>
+                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
+                        <span aria-hidden='true'>&times;</span>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>
 
 </section>
 
-<form method="post" id="" name="framework_delete" class="form-group p-4 ">
-    <div class="card shadow-sm position-absolute absolutemiddle form-dnone">
-        <div id="are_you_sure" class="d-flex flex-column  p-4 ">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <span>Are you sure?</span>
-                <a type="button" class="close" onclick="$('.form-dnone').hide()">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-
+<div class="card shadow-sm position-absolute absolutemiddle form-dnone">
+    <div id="are_you_sure" class="d-flex flex-column  p-4 ">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>Are you sure?</span>
+            <a type="button" class="close" onclick="$('.form-dnone').hide()">
+                <span aria-hidden="true">&times;</span>
+            </a>
+        </div>
+        <form method="post" id="" name="framework_delete" class="form-group p-4 ">
             <input type="hidden" name="valueId" value="" >
             <div class="border-0 d-flex justify-content-around">
                 <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
                 <a href="#" name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</a>
             </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
 
 
 <?php

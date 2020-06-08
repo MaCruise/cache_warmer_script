@@ -3,9 +3,10 @@ include_once('layout/head.php');
 
 include_once('layout/content-top.php');
 
-if (!$session->is_signed_in()) {
-    redirect('login.php');
-}
+!$session->is_signed_in()
+    ?redirect('login.php')
+    :null;
+
 
 
 ?>
@@ -13,7 +14,7 @@ if (!$session->is_signed_in()) {
     <div class="col-11 mx-auto vh-5">
         <div class='alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0' role='alert'>
             <span class="throw_error"></span>
-            <a  type='button' class='close' onclick="this.parentElement.style.display='none';"  >
+            <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
             <span aria-hidden='true'>&times;</span>
             </a>
         </div>

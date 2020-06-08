@@ -26,27 +26,64 @@ switch ($className) {
         $classController = FrameworksController::class;
         $formInputExcluder = [];
         $checkIfExists = ["name"];
+        $blankValue = ["name"];
         break;
     case 'User':
         $className = User::class;
         $classController = UsersController::class;
-        $formInputExcluder = ["name","email"];
+        $formInputExcluder = [];
+        $checkIfExists = ["username","email"];
+        $blankValue = ["username","email"];
         break;
     case 'Website':
         $className = Website::class;
         $classController = WebsitesController::class;
-        $formInputExcluder = ["url"];
+        $formInputExcluder = [];
+        $checkIfExists = ["url"];
+        $blankValue = ["url"];
         break;
 }
 
 
-foreach ($_REQUEST['formGetPostData'] as $item) {
+// omzetten naar aanspreekbare array
+
+foreach ($_REQUEST['formGetPostData'] as $item) {           /* "name" en "value" komen van jquery serializeArray()*/
     $objectarray[$item["name"]] = $item["value"];
 }
 
 
+
 $_REQUEST['formGetPostData'] = $objectarray;
 
+
+// controlleren of de value terug te vinden is in de aangegeven tabelnamen
+if($crudName != 'delete'){
+foreach($checkIfExists as $value){
+
+    isset($_REQUEST['formGetPostData'][$value])
+        ? $bool = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['bool']
+        : /*alert_message('This '.$value.' not found. pls remove out $checkIfExists')*/ null;
+
+    $bool
+        ?$errors["error"][] = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['message']
+        :null;
+    ;
+}
+
+
+// Controlleren of veldnaam leeg is
+
+foreach ($blankValue as $value){
+    !empty($_REQUEST['formGetPostData'][$value])
+        ? null
+        : $errors["error"][] = ucfirst($value).' cannot be blank';
+
+}
+}
+
+
+
+// zijn er errors
 
 if (!empty($errors)) { //If errors in validation
     $form_data['success'] = false;
@@ -58,22 +95,6 @@ if (!empty($errors)) { //If errors in validation
 
         case 'create' :
 
-
-            foreach($checkIfExists as $value){
-
-                isset($_REQUEST['formGetPostData'][$value])
-                    ? $bool = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['bool']
-                    : /*alert_message('This '.$value.' not found. pls remove out $checkIfExists')*/ null;
-
-                    $bool
-                        ?$errors['name'] = $className::if_exists_single('name', $_REQUEST['formGetPostData']['name'], true)['message']
-                        :null;
-                    ;
-            }
-
-            !empty($_REQUEST['formGetPostData']['name'])
-                ? null
-                : $errors['name'] = 'Name cannot be blank';
 
 
             if (!empty($errors)) {
@@ -95,9 +116,6 @@ if (!empty($errors)) { //If errors in validation
 
         case 'edit' :
 
-            $className::if_exists('name', $_REQUEST['formGetPostData']['name'], $message = true)['bool']
-                ? $errors['name'] = $className::if_exists('name', $_REQUEST['formGetPostData']['name'], true)['message']
-                : null;
 
             !empty($_REQUEST['formGetPostData']['name'])
                 ?: $errors['name'] = 'Name cannot be blank';

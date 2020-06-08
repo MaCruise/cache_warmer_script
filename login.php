@@ -30,7 +30,7 @@ $password = "";
 <section class="row vh-100">
     <div class="shadow border rounded mx-auto my-auto w-25">
         <?php  if(isset($_SESSION['message'])){ ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert">
             <?= $_SESSION['message']?>
             <a href="unset_message.php" type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

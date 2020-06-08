@@ -70,9 +70,9 @@ if (empty($_GET['id'])) {
         <div class="shadow border rounded mx-auto my-auto w-25 ">
 
             <?php if (isset($_SESSION['message'])) { ?>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert">
                     <?= $_SESSION['message'] ?>
-                    <a href="unset_message.php" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
                         <span aria-hidden="true">&times;</span>
                     </a>
                 </div>
@@ -118,9 +118,9 @@ if (empty($_GET['id'])) {
                 <?php } ?>
                 <?php if (isset($_SESSION['delete_website'])) { ?>
                     <div class="border-0 d-flex flex-column mt-4">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert">
                             <?= $_SESSION['delete_website'] ?>
-                            <a href="" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
                                 <span aria-hidden="true">&times;</span>
                             </a>
                         </div>

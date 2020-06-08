@@ -92,7 +92,7 @@ class Queries
 
     }
 
-    /*public static function if_exists($table = [], $input,$message = [])
+    public static function if_exists($table = [], $input,$message = [])
     {
         $message=[];
         $bool = [];
@@ -101,18 +101,13 @@ class Queries
             $bool[] = !empty(static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE {$tableValue}='{$input[$tableValue]}'"))
                 ?$message[] = ucfirst($tableValue) . " : $input[$tableValue] already in system"
                 :$message[] = ucfirst($tableValue) . " : $input[$tableValue] not found ";
-
-
-
-
-
         }
         var_dump(compact('bool', 'message'));
         die('test');
         return compact('bool', 'message');
 
 
-    }*/
+    }
 
 
 

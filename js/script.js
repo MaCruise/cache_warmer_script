@@ -1,7 +1,7 @@
 
 $('.alert-message').hide();
 $('.form-dnone').hide();
-$('.button-delete_form').on('click',function(event){
+$('.form-button_delete').on('click',function(event){
     event.preventDefault(); //Prevent the default submit
     $('.form-dnone').show();
     $('input[name="valueId"]').attr("value", $(this).closest('tr').find(".valueRowId").text());
@@ -48,7 +48,12 @@ $( document ).ready(function() {
 
                     if (data.errors) {
 
-                        $('.throw_error').html('<span class="throw_error">'+data.errors.name+'</span>');
+                        result = "";
+                        for ( var i = 0; i < data.errors.error.length; i++ ) {
+                            console.log(i)
+                            result += '<span class="throw_error">'+data.errors.error[i]+'</span><br>'
+                        }
+                        $('.throw_error').append(result);
                         $('.alert-message').removeClass("alert-success").addClass("alert-warning").show();
 
                     } else {

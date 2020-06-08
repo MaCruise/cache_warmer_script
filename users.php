@@ -14,26 +14,27 @@ $users = User::find_all();
 
 <section class="row">
 
-    <div class="col-2">
+    <div class="col-2 ">
         <ul class="d-flex justify-content-around">
             <li class="list-unstyled ">
                 <a class="btn btn-outline-success rounded mt-4" href="add_user.php">Create user</a>
             </li>
+            <li>
+                <div class='alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0' role='alert'>
+                    <span class="throw_error"></span>
+                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
+                        <span aria-hidden='true'>&times;</span>
+                    </a>
+                </div>
+            </li>
         </ul>
     </div>
-    <div class="col-8 mr-auto mt-4">
+    <div class="col-9   mt-4">
 
         <div class="card shadow-sm ">
 
             <table class="table table-centered table-hover text-center">
-                <?php if (isset($_SESSION['message'])) { ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <?= $_SESSION['message'] ?>
-                        <a href="unset_message.php" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                    </div>
-                <?php } ?>
+
                 <thead class="">
                 <?php
                 echo User::tableheading();
@@ -44,12 +45,12 @@ $users = User::find_all();
                 <tbody class="card-body">
                 <?php foreach ($users as $user) { ?>
                     <tr>
-                        <th scope="row"><?php echo $user->id; ?></th>
+                        <th scope="row" class="valueRowId"><?php echo $user->id; ?></th>
 
                         <td><?php echo $user->username; ?></td>
                         <td><?php echo $user->email; ?></td>
                         <td><?php echo $user->password; ?></td>
-                        <td><a class="btn btn-outline-info rounded shadow-sm align-self-center"
+                        <td><a class="btn btn-outline-info rounded align-self-center"
                                href="edit_user.php?id=<?php echo $user->id; ?>">
                                 <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -59,45 +60,44 @@ $users = User::find_all();
                             </a>
                         </td>
                         <td>
-                            <form method="post" action="edit_user.php?id=<?php echo $user->id; ?>">
-                                <button type="submit" name="submit" value="Delete_User"
-                                        class="btn btn-outline-danger rounded shadow-sm align-self-center">
-                                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
-                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd"
-                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                    </svg>
-                                </button>
-                            </form>
+
+                            <a href="" name="submit" value="user_delete"
+                               class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
+                                <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </a>
                         </td>
                     </tr>
                 <?php } ?>
                 </tbody>
             </table>
+
         </div>
-    </div>
 
 </section>
 
-<?php if (isset($_SESSION['delete_user'])) { ?>
-    <form method="post" action="edit_user.php?id=<?php echo $_GET['id'] ?>" class="form-group p-4 ">
-        <div class="card shadow-sm position-absolute absolutemiddle">
-            <div id="are_you_sure" class="d-flex flex-column  p-4 ">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <?= $_SESSION['delete_user'] ?>
-                    <a href="" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
-                </div>
-                <div class="border-0 d-flex justify-content-around">
-                    <input type="submit" name="submit_user" value="No" class="btn shadow border">
-                    <input type="submit" name="submit" value="Yes" class="btn btn-outline-danger shadow">
-                </div>
-            </div>
+
+<div class="card shadow-sm position-absolute absolutemiddle form-dnone">
+    <div id="are_you_sure" class="d-flex flex-column  p-4 ">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>Are you sure?</span>
+            <a type="button" class="close" onclick="$('.form-dnone').hide()">
+                <span aria-hidden="true">&times;</span>
+            </a>
         </div>
-    </form>
-<?php } ?>
+        <form method="post" id="" name="user_delete" class="form-group p-4 ">
+            <input type="hidden" name="valueId" value="" >
+            <div class="border-0 d-flex justify-content-around">
+                <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
+                <a href="#" name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</a>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 <?php
