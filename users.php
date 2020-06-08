@@ -12,24 +12,34 @@ $users = User::find_all();
 ?>
 
 
-<section class="row">
-
-    <div class="col-2 ">
-        <ul class="d-flex justify-content-around">
-            <li class="list-unstyled ">
-                <a class="btn btn-outline-success rounded mt-4" href="add_user.php">Create user</a>
-            </li>
-            <li>
-                <div class='alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0' role='alert'>
+<section class="row mt-4">
+    <div class="col-12  vh-4">
+        <div class="row">
+            <div class='col-8 mx-auto'>
+                <div class=' alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0'
+                     role='alert'>
                     <span class="throw_error"></span>
-                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
+                    <a type='button' class='close' onclick="$('.alert-message').hide()">
                         <span aria-hidden='true'>&times;</span>
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <ul class="list-unstyled d-flex flex-column justify-content-around">
+            <li class="mx-auto">
+                <div class="mt-1">
+                    <a class="btn btn-outline-success rounded mt-4" href="add_user.php">Create user</a>
+                </div>
             </li>
+            <li>
+
+            </li>
+
         </ul>
     </div>
-    <div class="col-9   mt-4">
+    <div class="col-8   mt-4">
 
         <div class="card shadow-sm ">
 
@@ -90,9 +100,9 @@ $users = User::find_all();
             </a>
         </div>
         <form method="post" id="" name="user_delete" class="form-group p-4 ">
-            <input type="hidden" name="valueId" value="" >
+            <input type="hidden" name="valueId" value="">
             <div class="border-0 d-flex justify-content-around">
-                <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
+                <button name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
                 <a href="#" name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</a>
             </div>
         </form>

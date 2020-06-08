@@ -92,4 +92,19 @@ class Dbobject extends Queries
         }
 
     }
+
+    static function assArray($input){
+        // omzetten naar aanspreekbare array
+
+
+        foreach ($input as $item) {           /* "name" en "value" komen van jquery serializeArray()*/
+            $objectarray[$item["name"]] = $item["value"];
+        }
+
+
+
+        return $objectarray;
+
+    }
+
 }

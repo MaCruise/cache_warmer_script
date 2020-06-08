@@ -12,13 +12,27 @@ $frameworks = Framework::find_all();
 ?>
 
 
-<section class="row">
-
-    <div class="col-2 ml-auto">
+<section class="row mt-4">
+    <div class="col-12 vh-4">
+        <div class="row">
+            <div class='col-7 mx-auto'>
+                <!-- <div class=' alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0'
+                      role='alert'>
+                     <span class="throw_error"></span>
+                     <a type='button' class='close' onclick="$('.alert-message').hide()">
+                         <span aria-hidden='true'>&times;</span>
+                     </a>
+                 </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
         <ul class=" list-unstyled text-center list-group">
-            <li  class=" ">
-                <a class="btn btn-outline-success rounded mt-4" href="add_framework.php">Create framework</a>
-            </li>
+            <div class="mt-1">
+                <li class=" ">
+                    <a class="btn btn-outline-success rounded mt-4" href="add_framework.php">Create framework</a>
+                </li>
+            </div>
 
         </ul>
     </div>
@@ -35,12 +49,12 @@ $frameworks = Framework::find_all();
 
                 </thead>
                 <tbody class="card-body">
-                <?php foreach ($frameworks as $framework){?>
+                <?php foreach ($frameworks as $framework) { ?>
                     <tr>
                         <th scope="row" class="valueRowId"><?php echo $framework->id; ?></th>
 
                         <td><?php echo $framework->name; ?></td>
-                        <td><a class="btn btn-outline-info rounded align-self-center"
+                        <td><a class="btn btn-outline-info rounded align-self-center float-right"
                                href="edit_framework.php?id=<?php echo $framework->id; ?>">
                                 <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +65,8 @@ $frameworks = Framework::find_all();
                         </td>
                         <td>
 
-                            <a href="" name="submit"  value="framework_delete"  class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
+                            <a href="" name="submit" value="framework_delete"
+                               class="btn btn-outline-danger rounded shadow-sm align-self-center float-left form-button_delete">
                                 <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -61,7 +76,7 @@ $frameworks = Framework::find_all();
                             </a>
                         </td>
                     </tr>
-                <?php }?>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -70,9 +85,10 @@ $frameworks = Framework::find_all();
         <ul class=" list-unstyled text-center list-group">
 
             <li>
-                <div class='alert alert-warning alert-dismissible fade show mx-auto alert-message float-right mb-0' role='alert'>
+                <div class='alert alert-warning alert-dismissible fade show mx-auto alert-message float-right mb-0'
+                     role='alert'>
                     <span class="throw_error"></span>
-                    <a  type='button' class='close' onclick="$('.alert-message').hide()"  >
+                    <a type='button' class='close' onclick="$('.alert-message').hide()">
                         <span aria-hidden='true'>&times;</span>
                     </a>
                 </div>
@@ -91,9 +107,9 @@ $frameworks = Framework::find_all();
             </a>
         </div>
         <form method="post" id="" name="framework_delete" class="form-group p-4 ">
-            <input type="hidden" name="valueId" value="" >
+            <input type="hidden" name="valueId" value="">
             <div class="border-0 d-flex justify-content-around">
-                <button  name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
+                <button name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
                 <a href="#" name="submit" value="Yes" class="btn btn-outline-danger shadow fetch-form">Yes</a>
             </div>
         </form>

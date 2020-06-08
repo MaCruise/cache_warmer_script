@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Cache_Warmer_Script/.idea/Cache_Warmer_Script.iml" filepath="$PROJECT_DIR$/../Cache_Warmer_Script/.idea/Cache_Warmer_Script.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Cache_Warmer_Script.iml" filepath="$PROJECT_DIR$/.idea/Cache_Warmer_Script.iml" />
     </modules>
   </component>
 </project>

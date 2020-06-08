@@ -12,13 +12,27 @@ $websites = Website::find_all();
 
 ?>
 
-
-<section class="row">
-
+<section class="row mt-4">
+    <div class="col-12 vh-4">
+        <div class="row">
+            <div class='col-8 mx-auto'>
+                <div class=' alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0'
+                     role='alert'>
+                    <span class="throw_error"></span>
+                    <a type='button' class='close' onclick="$('.alert-message').hide()">
+                        <span aria-hidden='true'>&times;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-2">
         <ul class="d-flex justify-content-around">
             <li class="list-unstyled ">
-                <a class="btn btn-outline-success rounded mt-4" href="add_website.php">Create website</a>
+                <div class="mt-1">
+                    <a class="btn btn-outline-success rounded mt-4" href="add_website.php">Create website</a>
+                </div>
+
             </li>
         </ul>
     </div>

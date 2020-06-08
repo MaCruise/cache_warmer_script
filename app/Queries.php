@@ -43,22 +43,22 @@ class Queries
 
 
 
-    public function update(){
+    public function update()
+    {
         global $database;
         $properties = $this->clean_properties();
         $properties_assoc = array();
-        foreach($properties as $key => $value){
-            $properties_assoc[] ="{$key}='{$value}'";
+        foreach ($properties as $key => $value) {
+            $properties_assoc[] = "{$key}='{$value}'";
         }
 
-        $sql = "UPDATE ". static::$db_table ." SET ";
+        $sql = "UPDATE " . static::$db_table . " SET ";
         $sql .= implode(",", $properties_assoc);
         $sql .= " WHERE id= " . $database->escape_string($this->id);
 
-        $database->query($sql);
-        return (mysqli_affected_rows($database->connection) == 1) ? true : false;
-    }
 
+        return $database->query($sql);
+    }
 
     public function delete(){
 
@@ -73,9 +73,14 @@ class Queries
 
 
 
-    public static function if_exists_single($table,$input,$message=false){
+    public static function if_exists_single($table,$input,$message=false,$id=null){
 
-        $bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}'"));
+
+        $id==null
+            ?$bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}'"))
+            :$bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}' AND id!='{$id}'"));
+
+
         if ($message){
             switch ($bool) {
                 case true:
@@ -102,6 +107,7 @@ class Queries
                 ?$message[] = ucfirst($tableValue) . " : $input[$tableValue] already in system"
                 :$message[] = ucfirst($tableValue) . " : $input[$tableValue] not found ";
         }
+
         var_dump(compact('bool', 'message'));
         die('test');
         return compact('bool', 'message');

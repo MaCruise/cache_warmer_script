@@ -19,8 +19,9 @@ class UsersController
         }
     }
 
-    public static function edit($id,$post){
-        $user = Framework::find_byId($id);
+    public static function edit($id,$post)
+    {
+        $user = User::find_byId($id);
 
         if ($user) {
             $user->username = trim($post['username']);
@@ -34,9 +35,9 @@ class UsersController
     }
 
 
-    public static function delete($id){
-        $user = Framework::find_byId($id);
-
+    public static function delete($id)
+    {
+        $user = User::find_byId($id);
         return $user->delete();
 
 
