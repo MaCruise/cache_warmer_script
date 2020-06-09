@@ -8,7 +8,8 @@ if (!$session->is_signed_in()) {
 
 }
 $websites = Website::find_all();
-
+$cache = new CacheWarmer();
+var_dump($cache->run());
 
 ?>
 

@@ -26,11 +26,6 @@ $( document ).ready(function() {
 
         var formGetPostData = $(this).closest('form').serializeArray()
 
-        /*formGetPostData = {};
-
-       $(dataObj).each(function(i,field){
-           formGetPostData[field.name] = field.value;
-        })*/
 
         var urlRoute = 'routeController.php'
 
@@ -64,11 +59,6 @@ $( document ).ready(function() {
                         $('.throw_error').delay( ).html('<span class="throw_error">'+data.posted+'</span>');
 
                         $('.alert-message').removeClass("alert-warning").addClass("alert-success").show();
-
-
-
-
-
                     }
 
                 }
