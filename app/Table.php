@@ -5,8 +5,8 @@ trait Table
 {
     public static function tableheading(){
         $tableheading="";
-        foreach ($result = static::db_tables() as $user){
-            $tableheading .= "<th scope='col'>".str_replace('_id',"",ucfirst($user))."</th>";
+        foreach ($result = static::db_tables() as $row){
+            $tableheading .= "<th scope='col'>".str_replace('_id',"",ucfirst($row))."</th>";
 
 
         }

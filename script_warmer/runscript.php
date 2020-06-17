@@ -42,10 +42,12 @@ runScript();
         $sitemap_urls = array();
         $all_Sitemaps = Website::find_all();
 
+
         foreach ($all_Sitemaps as $sitemap_url){
 
             switch ($sitemap_url->active){
                 case true:
+
                     if(!isset($SessionVarSitemap[$sitemap_url->url.$sitemap_url->path])){
                     $SessionVarSitemap[$sitemap_url->url.$sitemap_url->path]['session_url_sitemap'] = $sitemap_url->url.$sitemap_url->path;
                     $SessionVarSitemap[$sitemap_url->url.$sitemap_url->path]['session_sitemap_url_count'] = 0;
@@ -82,9 +84,9 @@ runScript();
 
       if(isset($return['countallurlsfound']) && $return['countallurlsfound'] == 0 && $SessionVarSitemap["active"] === false )
         {
-            Sitemap::removeTable_sitemap();
-            session_destroy();
-            echo 'goed gedaan';
+            Sitemap::removeTable();
+            ErrorMessage::create_log(0,"Script ended");
+            echo "Script end";
             exit();
 
         }else{
@@ -95,7 +97,7 @@ runScript();
         }
 
     }
-
+    ErrorMessage::create_log(0,"function runScript ended");
 
 
 ?>

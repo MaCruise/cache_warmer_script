@@ -34,7 +34,7 @@ class Sitemap extends Dbobject
     static public function  refresh_sitemap()
     {
 
-        return $return = (static::removeTable_sitemap())===true?true:ErrorMessage::create_log(0,"error refreshing script");
+        return $return = (static::removeTable())===true?true:ErrorMessage::create_log(0,"error refreshing script");
 
 
 

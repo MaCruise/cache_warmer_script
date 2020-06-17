@@ -11,10 +11,15 @@ class Queries
 
     }
 
-    public static function find_all($where = "")
+    public static function find_all()
     {
 
         return $result = static::find_this_query("SELECT * FROM " . static::$db_table);
+    }
+    public static function find_all_time()
+    {
+
+        return $result = static::find_this_query("SELECT * FROM " . static::$db_table . " ORDER BY " . static::$db_table .".created_at DESC");
     }
 
     public static function find_byId($id)
@@ -79,7 +84,7 @@ class Queries
         return (mysqli_affected_rows($database->connection) == 1) ? true : false;
     }
 
-    static public function removeTable_sitemap()
+    static public function removeTable()
     {
         global $database;
         $sql = "TRUNCATE TABLE " . static::$db_table;

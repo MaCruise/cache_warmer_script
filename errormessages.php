@@ -7,7 +7,7 @@ if (!$session->is_signed_in()) {
     redirect('login.php');
 
 }
-$errors = ErrorMessage::find_all();
+$errors = ErrorMessage::find_all_time();
 
 ?>
 
@@ -27,14 +27,14 @@ $errors = ErrorMessage::find_all();
         </div>
     </div>
     <div class="col-2">
-        <!--<ul class=" list-unstyled text-center list-group">
+       <ul class=" list-unstyled text-center list-group">
             <div class="mt-1">
                 <li class=" ">
-                    <a class="btn btn-outline-success rounded mt-4" href="add_framework.php">Create framework</a>
+                    <button class="btn btn-outline-success rounded mt-4 flush-form" >Flush errors</button>
                 </li>
             </div>
 
-        </ul>-->
+        </ul>
     </div>
     <div class="col-7 ml-auto mt-4">
 
@@ -43,9 +43,10 @@ $errors = ErrorMessage::find_all();
             <table class="table table-centered table-hover text-center">
                 <thead class="">
                 <?php
-                echo Framework::tableheading();
+                echo ErrorMessage::tableheading();
                 ?>
-               <!-- <th scope="col" colspan="2">Quickfix</th>-->
+
+
 
                 </thead>
                 <tbody class="card-body">
@@ -55,6 +56,7 @@ $errors = ErrorMessage::find_all();
 
                         <td><?php echo empty(Website::find_byId($error->website_id)->url)?'script':Website::find_byId($error->website_id)->url; ?></td>
                         <td><?php echo $error->error; ?></td>
+                        <td><?php echo $error->created_at; ?></td>
                        <!-- <td><a class="btn btn-outline-info rounded align-self-center float-right"
                                href="edit_framework.php?id=<?php /*echo $framework->id; */?>">
                                 <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
