@@ -29,12 +29,6 @@ $( document ).ready(function() {
 
         var urlRoute = 'routeController.php'
 
-        console.log(form);
-
-
-        console.log(formGetPostData);
-        console.log(urlRoute);
-
 
         $.ajax({ //Process the form using $.ajax()
             type: 'POST', //Method type

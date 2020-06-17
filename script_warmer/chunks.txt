@@ -1,0 +1,4 @@
+array (
+  0 => '20',
+  1 => 'https://www.xn--tefte-jsa.be/checkout-2/',
+)

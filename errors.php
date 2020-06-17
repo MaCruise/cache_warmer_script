@@ -7,61 +7,55 @@ if (!$session->is_signed_in()) {
     redirect('login.php');
 
 }
-$users = User::find_all();
+$errors = Error::find_all();
 
 ?>
 
 
 <section class="row mt-4">
-    <div class="col-12  vh-4">
+    <div class="col-12 vh-4">
         <div class="row">
-            <div class='col-8 mx-auto'>
-                <div class=' alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0'
-                     role='alert'>
-                    <span class="throw_error"></span>
-                    <a type='button' class='close' onclick="$('.alert-message').hide()">
-                        <span aria-hidden='true'>&times;</span>
-                    </a>
-                </div>
+            <div class='col-7 mx-auto'>
+                <!-- <div class=' alert alert-warning alert-dismissible fade show mx-auto w-25 alert-message float-right mb-0'
+                      role='alert'>
+                     <span class="throw_error"></span>
+                     <a type='button' class='close' onclick="$('.alert-message').hide()">
+                         <span aria-hidden='true'>&times;</span>
+                     </a>
+                 </div>-->
             </div>
         </div>
     </div>
     <div class="col-2">
-        <ul class="list-unstyled d-flex flex-column justify-content-around">
-            <li class="mx-auto">
-                <div class="mt-1">
-                    <a class="btn btn-outline-success rounded mt-4" href="add_user.php">Create user</a>
-                </div>
-            </li>
-            <li>
+        <!--<ul class=" list-unstyled text-center list-group">
+            <div class="mt-1">
+                <li class=" ">
+                    <a class="btn btn-outline-success rounded mt-4" href="add_framework.php">Create framework</a>
+                </li>
+            </div>
 
-            </li>
-
-        </ul>
+        </ul>-->
     </div>
-    <div class="col-8   mt-4">
+    <div class="col-7 ml-auto mt-4">
 
         <div class="card shadow-sm table-responsive">
 
             <table class="table table-centered table-hover text-center">
-
                 <thead class="">
                 <?php
-                echo User::tableheading();
+                echo Framework::tableheading();
                 ?>
                 <th scope="col" colspan="2">Quickfix</th>
 
                 </thead>
                 <tbody class="card-body">
-                <?php foreach ($users as $user) { ?>
+                <?php foreach ($errors as $error) { ?>
                     <tr>
-                        <th scope="row" class="valueRowId"><?php echo $user->id; ?></th>
+                        <th scope="row" class="valueRowId"><?php echo $error->id; ?></th>
 
-                        <td><?php echo $user->username; ?></td>
-                        <td><?php echo $user->email; ?></td>
-                        <td><?php echo $user->password; ?></td>
-                        <td><a class="btn btn-outline-info rounded align-self-center"
-                               href="edit_user.php?id=<?php echo $user->id; ?>">
+                        <td><?php echo $error->url; ?></td>
+                        <td><a class="btn btn-outline-info rounded align-self-center float-right"
+                               href="edit_framework.php?id=<?php echo $framework->id; ?>">
                                 <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -71,8 +65,8 @@ $users = User::find_all();
                         </td>
                         <td>
 
-                            <a href="" name="submit" value="user_delete"
-                               class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
+                            <a href="" name="submit" value="framework_delete"
+                               class="btn btn-outline-danger rounded shadow-sm align-self-center float-left form-button_delete">
                                 <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -85,11 +79,24 @@ $users = User::find_all();
                 <?php } ?>
                 </tbody>
             </table>
-
         </div>
+    </div>
+    <div class="col-2 mr-auto mt-4">
+        <ul class=" list-unstyled text-center list-group">
+
+            <li>
+                <div class='alert alert-warning alert-dismissible fade show mx-auto alert-message float-right mb-0'
+                     role='alert'>
+                    <span class="throw_error"></span>
+                    <a type='button' class='close' onclick="$('.alert-message').hide()">
+                        <span aria-hidden='true'>&times;</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
 
 </section>
-
 
 <div class="card shadow-sm position-absolute absolutemiddle form-dnone">
     <div id="are_you_sure" class="d-flex flex-column  p-4 ">
@@ -99,7 +106,7 @@ $users = User::find_all();
                 <span aria-hidden="true">&times;</span>
             </a>
         </div>
-        <form method="post" id="" name="user_delete" class="form-group p-4 ">
+        <form method="post" id="" name="framework_delete" class="form-group p-4 ">
             <input type="hidden" name="valueId" value="">
             <div class="border-0 d-flex justify-content-around">
                 <button name="submit" value="No" onclick="$('.form-dnone').hide()" class="btn shadow border">No</button>
@@ -115,3 +122,4 @@ $users = User::find_all();
 include('layout/footer.php');
 
 ?>
+

@@ -1,0 +1,108 @@
+<?php
+
+
+class CacheWarmer
+{
+    var $config;
+    var $context ;
+    var $counturlsfound;
+    var $countpagesvisited;
+    var $start;
+    var $stop;
+
+
+    function __construct($config)
+    {
+
+        $this->context = stream_context_create();
+        $this->counturlsfound = 0;
+        $this->countpagesvisited = 0;
+
+    }
+
+
+    public function run()
+    {
+        $log = [];
+        $succes = [];
+        $url_content = [];
+        $count = 0;
+
+        if(($fileResult = file_get_contents('chunk.txt')) !== ""){
+            $arrayExplode = explode("\r\n\r\n",$fileResult);
+        }
+        var_dump($arrayExplode);
+
+
+        $chunk = fopen("chunk.txt",'w');
+        $urls = $this->process_sitemap($sitemap_url);
+
+
+        $_SESSION['countpagesvisited'] = $this->countpagesvisited;
+
+
+        foreach ($urls as $url){
+
+            $url_content = file_get_contents(trim($url), false, $this->context);
+
+            if ($url_content === FALSE) {
+                throw new Exception("Cannot access '$url' to read contents.");
+                $this->countpagesvisited++;
+            } else {
+                echo "succes\n";
+                $this->countpagesvisited++;
+                if($this->countpagesvisited == 20){
+                    $strUrlCount = implode("\r\n\r\n",[trim((string)$this->countpagesvisited),trim((string)$url)]);
+                    fwrite($chunk,$strUrlCount);
+
+                }
+            }
+
+
+        }
+
+        return ;
+
+    }
+
+
+    public function process_sitemap($url)
+    {
+        $urls = array();
+
+
+
+        $sitemmap_xml = @file_get_contents($url,false,$this->context);
+
+
+        if ($sitemap = @simplexml_load_string(trim($sitemmap_xml))) {
+
+            switch ($sitemap->getName())
+            {
+                case 'sitemapindex':
+                    foreach ($sitemap->sitemap as $subsitemap)
+                    {
+                        $subsitemap_url = $subsitemap->loc;
+                        $urls = array_merge($urls, $this->process_sitemap($subsitemap_url));
+                    }
+
+                case 'urlset':
+                    foreach($sitemap->url as $url)
+                    {
+                        $urls[] = (string)$url->loc;
+
+                    }
+
+            }
+            $_SESSION['counturls'] = count($urls);
+            $_SESSION['urls'] = $urls;
+
+            return $urls;
+        }
+
+
+    }
+
+
+
+}

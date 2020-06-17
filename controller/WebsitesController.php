@@ -17,6 +17,7 @@ class WebsitesController
             $website->name = trim($post['name']);
             $website->url = trim($post['url']);
             $website->path = trim($post['path']);
+            $website->batch = trim($post['batch']);
             $website->framework_id = trim($post['select_framework']);
             return $website->create();
 
@@ -24,17 +25,31 @@ class WebsitesController
     }
 
     public static function edit($id,$post)
+
     {
+
+
         $website = Website::find_byId($id);
-        if ($website) {
-            $website->name = trim($post['name']);
-            $website->url = trim($post['url']);
-            $website->path = trim($post['path']);
-            $website->framework_id = trim($post['select_framework']);
-            return $website->update();
+        switch ($post){
+            case isset($post["button"]):
+                if ($website) {
+                $website->active = trim($post['button']);
+                return $website->update();
+                break;
+                }
+            default:
+                if ($website) {
+                    $website->name = trim($post['name']);
+                    $website->url = trim($post['url']);
+                    $website->path = trim($post['path']);
+                    $website->batch = trim($post['batch']);
+                    $website->framework_id = trim($post['select_framework']);
+                    return $website->update();
 
 
+                }
         }
+
 
     }
 

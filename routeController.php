@@ -17,7 +17,8 @@ isset($_REQUEST['formGetPostData']['valueRowId'])
     :$editID = null;
 
 
-
+/*var_dump($_REQUEST);
+die();*/
 $splitStr = explode("_", trim($_REQUEST['form']['name']));
 
 $className = ucfirst($splitStr[0]);
@@ -41,7 +42,7 @@ switch ($className) {
         $classController = UsersController::class;
         $formInputExcluder = [];
         $checkIfExists = ["username","email"];
-        $blankValue = ["username","email"];
+        $blankValue = ["username", "email"];
         $form_data["redirect"] = "users.php";
         break;
     case 'Website':
@@ -52,11 +53,24 @@ switch ($className) {
         $blankValue = ["url"];
         $form_data["redirect"] = "websites.php";
         break;
+    case 'Sitemap':
+        /* var_dump(Sitemap::refresh_sitemap());
+         die();*/
+        if (Sitemap::refresh_sitemap()) {
+            $form_data['success'] = true;
+            $form_data['posted'] = 'Successfully refreshed';
+        } else {
+            $form_data['success'] = false;
+            $form_data['posted'] = 'Refresh without success';
+        };
+        echo json_encode($form_data);
+        break;
+
 }
 
 
 
-if($crudName != 'delete')
+if(($crudName != 'delete' && !isset($_REQUEST['formGetPostData']['button'])))
 {
     // controlleren of de value terug te vinden is in de aangegeven tabelnamen
 
@@ -64,16 +78,18 @@ if($crudName != 'delete')
         ? $editId = $_REQUEST['formGetPostData']['valueId']
         : $editId = null;
 
-    foreach($checkIfExists as $value){
+    foreach($checkIfExists as $value) {
 
         isset($_REQUEST['formGetPostData'][$value])
-            ? $bool = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true,$editId)['bool']
-            : /*alert_message('This '.$value.' not found. pls remove out $checkIfExists')*/ null;
+            ? $bool = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true, $editId)['bool']
+            : /*alert_message('This '.$value.' not found. pls remove out $checkIfExists')*/
+            null;
 
-        $bool
-            ?$errors["error"][] = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['message']
-            :null;
-        ;
+        if (isset($bool)) {
+            $bool
+                ? $errors["error"][] = $className::if_exists_single($value, $_REQUEST['formGetPostData'][$value], $message = true)['message']
+                : null;
+        }
     }
 
 
@@ -131,16 +147,16 @@ if (!empty($errors)) { //If errors in validation
 
             $id = $_REQUEST['formGetPostData']['valueId'];
 
-            if ($classController::delete($id))
-            {
+            if ($classController::delete($id)) {
                 $form_data['success'] = true;
                 $form_data['posted'] = 'Successfully deleted';
-            } else
-                {
+            } else {
                 $form_data['success'] = true;
                 $form_data['posted'] = 'Something went wrong';
             }
 
+            break;
+        default:
             break;
     }
 }

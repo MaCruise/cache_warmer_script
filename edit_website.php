@@ -57,6 +57,8 @@ if (empty($_GET['id'])) {
                     <label for="path">Path: </label>
                     <input type="text" name="path" id="path" value="<?php echo $website->path ?>" class="form-control"
                            required>
+                    <label for="batch">Batch: </label>
+                    <input type="number" name="batch" id="batch" value="<?php echo $website->batch ?>" class="form-control" required>
 
                     <?php if (isset($frameworks) && !empty($frameworks)) { ?>
                         <label for="select_framework">Framework: </label>

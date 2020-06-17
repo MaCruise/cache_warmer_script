@@ -38,7 +38,7 @@ $frameworks = Framework::find_all();
     </div>
     <div class="col-7 ml-auto mt-4">
 
-        <div class="card shadow-sm ">
+        <div class="card shadow-sm table-responsive">
 
             <table class="table table-centered table-hover text-center">
                 <thead class="">

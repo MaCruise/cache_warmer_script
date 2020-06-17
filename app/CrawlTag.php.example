@@ -1,0 +1,91 @@
+<?php
+
+
+class CacheWarmer
+{
+
+    public function run()
+    {
+        $url_content = [];
+       /* $url = "https://www.yourmindourwork.be/sitemap.xml";*/
+        $url = "http://www.yoeripille.be/sitemap.xml";
+        $result = $this->process_sitemap($url);
+        $tagNames = ['span', 'p'];
+
+        $dom = new DOMDocument();
+
+
+        foreach ($result as $value) {
+
+            /*var_dump($result);
+            die();;*/
+
+            foreach ($value as $row) {
+
+                $txt = file_get_contents($row);
+                libxml_use_internal_errors(true);
+                $dom->loadHTML($txt);
+                libxml_use_internal_errors(false);
+                foreach ($tagNames as $tagname) {
+
+
+                    foreach ($dom->getElementsByTagName($tagname) as $tag) {
+
+                        $url_content[] = @$tag->nodeValue; // to get the content in between of tags...
+
+                    }
+                }
+
+
+            }
+
+
+        }
+
+        return $url_content;
+
+    }
+
+
+    public function process_sitemap($url)
+    {
+        $urls = [];
+
+        $sitemmap_xml = file_get_contents($url);
+        $sitemap = simplexml_load_string($sitemmap_xml);
+        /*   foreach ($sitemap as $knor=>$test){
+               var_dump($knor);
+               var_dump($test->getName());
+           }
+
+           die('test');*/
+
+        if ($sitemap->sitemap->getName() == 'sitemap') {
+            foreach ($sitemap->sitemap as $subsitemap) {
+
+                $urls[(string)$subsitemap->loc] = $this->process_sitemap_Get_Url($subsitemap->loc);
+            }
+
+
+            return $urls;
+        } else {
+
+            return $this->process_sitemap_Get_Url($url);
+
+        }
+
+    }
+
+    public function process_sitemap_Get_Url($url){
+        $urls = [];
+        $sitemmap_xml = file_get_contents($url);
+        $sitemap = simplexml_load_string($sitemmap_xml);
+
+        foreach($sitemap->url as $url){
+            $urls['urls'][] = (string)$url->loc;
+        }
+            return $urls;
+    }
+
+
+}

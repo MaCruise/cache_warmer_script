@@ -40,6 +40,8 @@ $frameworks = Framework::find_all();
                 <input type="url" name="url" id="url" class="form-control">
                 <label for="path">Path: </label>
                 <input type="text" name="path" id="path" class="form-control">
+                <label for="batch">Batch: </label>
+                <input type="number" name="batch" id="batch" class="form-control">
                 <?php if (isset($frameworks) && !empty($frameworks)) { ?>
                     <label for="select_framework">Framework: </label>
                     <select class="form-control" name="select_framework" id="select_framework">

@@ -11,17 +11,27 @@ class Queries
 
     }
 
-        public static function find_all(){
+    public static function find_all($where = "")
+    {
 
-        return $result = static::find_this_query("SELECT * FROM ".static::$db_table);
-    }
-    public static function find_byId($id){
-
-        $result =   static::find_this_query("SELECT * FROM ".static::$db_table." WHERE ID=$id");
-
-        return      !empty($result)?array_shift($result): false;
+        return $result = static::find_this_query("SELECT * FROM " . static::$db_table);
     }
 
+    public static function find_byId($id)
+    {
+
+        $result = static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE ID=$id");
+
+        return !empty($result) ? array_shift($result) : false;
+    }
+
+    public static function find_culomn_input($culomn, $value)
+    {
+
+        $result = static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE {$culomn}='{$value}'");
+
+        return !empty($result) ? array_shift($result) : false;
+    }
 
 
     public function create()
@@ -33,7 +43,7 @@ class Queries
 
         if ($database->query($sql)) {
             $this->id = $database->the_insert_id();
-            return true;
+            return $this->id;
         } else {
             return false;
         }
@@ -63,7 +73,7 @@ class Queries
     public function delete(){
 
         global $database;
-        $sql = "DELETE FROM ". static::$db_table ;
+        $sql = "DELETE FROM " . static::$db_table;
         $sql .= " WHERE id=" . $database->escape_string($this->id);
         $sql .= " LIMIT 1";
         $database->query($sql);
@@ -71,14 +81,25 @@ class Queries
         return (mysqli_affected_rows($database->connection) == 1) ? true : false;
     }
 
+    static public function removeTable_sitemap()
+    {
+        global $database;
+        $sql = "TRUNCATE TABLE " . static::$db_table;
+        $database->query($sql);
+
+        return (mysqli_affected_rows($database->connection));
 
 
-    public static function if_exists_single($table,$input,$message=false,$id=null){
+    }
 
 
-        $id==null
-            ?$bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}'"))
-            :$bool = !empty(static::find_this_query("SELECT * FROM ".static::$db_table." WHERE {$table}='{$input}' AND id!='{$id}'"));
+    public static function if_exists_single($table, $input, $message = false, $id = null)
+    {
+
+
+        $id == null
+            ? $bool = !empty(static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE {$table}='{$input}'"))
+            : $bool = !empty(static::find_this_query("SELECT * FROM " . static::$db_table . " WHERE {$table}='{$input}' AND id!='{$id}'"));
 
 
         if ($message){
@@ -114,8 +135,6 @@ class Queries
 
 
     }
-
-
 
 
 }

@@ -8,8 +8,9 @@ if (!$session->is_signed_in()) {
 
 }
 $websites = Website::find_all();
-$cache = new CacheWarmer();
-var_dump($cache->run());
+
+
+
 
 ?>
 
@@ -28,18 +29,28 @@ var_dump($cache->run());
         </div>
     </div>
     <div class="col-2">
-        <ul class="d-flex justify-content-around">
+        <ul class="d-flex flex-column justify-content-around">
             <li class="list-unstyled ">
                 <div class="mt-1">
                     <a class="btn btn-outline-success rounded mt-4" href="add_website.php">Create website</a>
                 </div>
 
             </li>
+            <li class="list-unstyled ">
+
+                <div class="mt-1">
+                  <!--  <form method="post" name="sitemap_refresh">
+                        <input type="hidden" name="hidden">-->
+                        <a href="errors.php" name="submit" value="Create" class="btn shadow-sm border">Error logging</a>
+                    <!--<a class="btn btn-outline-success rounded mt-4 fetch-form" href="add_website.php">Refresh script</a>-->
+                    <!--</form>-->
+                </div>
+            </li>
         </ul>
     </div>
     <div class="col-8 mr-auto mt-4">
 
-        <div class="card shadow-sm ">
+        <div class="card shadow-sm table-responsive">
 
             <table class="table table-centered mb-0 text-center">
                 <thead class="">
@@ -66,7 +77,47 @@ var_dump($cache->run());
                                 </svg>
                             </a></td>
                         <td class=""><?php echo $website->path; ?></td>
+                        <td class=""><?php echo $website->batch; ?></td>
                         <td class=""><?php echo $website->framework_id ? isset(Framework::find_byId($website->framework_id)->name)?Framework::find_byId($website->framework_id)->name:'Deprecated' : 'no framework' ?></td>
+                        <td><div class="mid">
+
+                                <div class="switch">
+                                    <form name="website_edit" method="post">
+                                        <div class="">
+                                            <input type="hidden" name="valueId" value="<?php echo $website->id;?>">
+                                            <input type="hidden" name="button" value="<?php echo !$website->active;?>">
+                                    <label>
+                                        Off
+                                        <input type="checkbox"   class="fetch-form" <?php if ($website->active) { ?>checked <?php } ?>>
+                                        <span class="lever"></span> On
+                                    </label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+
+                       <!-- <td><?php /*if ($website->active) { */?><span
+                                    class="badge bg-soft-success text-success shadow-none">Active</span> <?php
+/*
+                            } else { */?><span
+                                    class="badge bg-soft-danger text-danger shadow-none">Blocked</span><?php
+/*                            }
+                            */?>
+                            <form name="website_edit" method="post">
+                                <div class="custom-control custom-switch">
+                                    <input type="hidden" name="valueId" value="<?php /*echo $website->id;*/?>">
+                                    <input type="hidden" name="button" value="<?php /*echo !$website->active;*/?>">
+                                    <input type="checkbox" <?php /*if ($website->active) { */?>checked <?php /*} */?>
+                                           data-toggle="toggle" class="custom-control-input fetch-form"
+                                            name="activecheckbox<?php /*echo $website->id */?>"
+                                           id="customSwitch<?php /*echo $website->id */?>" value="<?php /*echo $website->id */?>">
+                                    <label class="custom-control-label"
+                                           for="customSwitch<?php /*echo $website->id */?>"></label>
+                                </div>
+                            </form>
+
+                        </td>-->
                         <td><a class="btn btn-outline-info rounded align-self-center"
                                href="edit_website.php?id=<?php echo $website->id; ?>">
                                 <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"

@@ -1,0 +1,125 @@
+<?php
+
+
+class CacheWarmer extends Dbobject
+{
+    var $context;
+    var $continue;
+    var $countpagesvisited;
+    var $sitemapurl;
+    var $sitemapurls;
+
+
+    function __construct()
+    {
+
+        $this->context = stream_context_create();
+        $this->countpagesvisited = 0;
+    }
+
+
+    public function run($sitemapurls)
+    {
+
+        $this->sitemapurls = $sitemapurls;
+        $this->continue = count($this->sitemapurls);
+
+        foreach ($this->sitemapurls as $sitemapurl) {
+            $this->sitemapurl = $sitemapurl;
+            /*if (!isset($_SESSION[$sitemapurl]['session_sitemap_url_count'])) {*/
+
+                $_SESSION[$sitemapurl]['urls'] = $this->process_sitemap($sitemapurl);
+                !isset($_SESSION["active"])?Sitemap::create_sitemap($sitemapurl):null;
+
+            /*}*/
+
+        }
+
+
+        foreach ($this->sitemapurls as $sitemapurl) {
+
+            $this->sitemapurl = $sitemapurl;
+            $urls = $_SESSION[$sitemapurl]['urls'];
+
+            if (!empty($urls)) {
+                for ($x=$_SESSION[$sitemapurl]['session_sitemap_url_count']-1; $x>=0;$x--){
+                   /* foreach (array_reverse($urls) as $id=>$url) {*/
+                    $url_content = @file_get_contents(trim($urls[$x]), false, $this->context);
+                    if ($url_content === FALSE) {
+                        $this->countpagesvisited++;
+                        throw new Exception("Cannot access '$urls[$x]' to read contents.");
+                    } else {
+                        echo "$urls[$x] succes\n";
+                        $this->countpagesvisited++;
+                        /*$_SESSION[$sitemapurl]['session_sitemap_url_count']--;*/
+                        /*array_pop($_SESSION[$sitemapurl]['urls']);*/
+                        $_SESSION['countallurlsfound']--;
+                        if ($this->countpagesvisited == 5 || $x==0) {
+                            $this->countpagesvisited=0;
+                            Sitemap::update_sitemap($_SESSION[$sitemapurl]['id'],$x/*$_SESSION[$sitemapurl]['session_sitemap_url_count']*/);
+                            $this->continue--;
+
+
+                            /*$this->continue==0?exit:null;*/
+
+                            continue 2;
+
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return;
+
+    }
+
+
+    public function process_sitemap($url)
+    {
+        $urls = array();
+        $urlcounter = 0;
+
+        $sitemmap_xml = @file_get_contents($url, false, $this->context);
+
+
+        if ($sitemap = @simplexml_load_string(trim($sitemmap_xml))) {
+
+            switch ($sitemap->getName()) {
+                case 'sitemapindex':
+                    foreach ($sitemap->sitemap as $subsitemap) {
+                        $subsitemap_url = $subsitemap->loc;
+                        $urls = array_merge($urls, $this->process_sitemap($subsitemap_url));
+                    }
+
+                case 'urlset':
+                    $parsedUrl = parse_url($this->sitemapurl);
+                    $parseUrl  = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+                    foreach ($sitemap->url as $url) {
+                        if(strpos((string)$url->loc,$parseUrl)!==false){
+                            $urls[] = (string)$url->loc;
+                        }else{
+
+                            $urls[] = $parseUrl.(string)$url->loc;
+                        }
+                        $_SESSION['countallurlsfound']++;
+                        $urlcounter++;
+                    }
+
+            }
+
+
+
+            !isset($_SESSION["active"])?$_SESSION[$this->sitemapurl]['session_sitemap_url_count'] = count($urls):null;
+
+
+            return $urls;
+        }
+
+
+    }
+
+
+}

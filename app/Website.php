@@ -7,6 +7,9 @@ class Website extends Dbobject
 
     public static $db_table = 'websites';
 
+    /**
+     * Table properties declared dynamiclly
+     */
 
     /*protected static $db_fields= array('id' => $id,'username' => $username,'password','first_name','last_name');*/
 
