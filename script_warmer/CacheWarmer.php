@@ -36,13 +36,22 @@ class CacheWarmer extends Dbobject
         foreach ($this->sitemapurls as $sitemapurl) {
             $this->sitemapurl = $sitemapurl;
 
-            $this->SessionVarSitemap[$sitemapurl]['urls'] = $this->process_sitemap($sitemapurl);
+            if($this->SessionVarSitemap[$sitemapurl]['urls'] = $this->process_sitemap($sitemapurl) === false){
+                ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],"Urls should not be empty");
+                WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],["button"=>'']);
+
+            }
+
 
             !isset($this->SessionVarSitemap["active"]) || !Sitemap::if_exists_single('session_url_sitemap', $sitemapurl)
                 ? $this->SessionVarSitemap[$sitemapurl]['id'] = Sitemap::create_sitemap($this->SessionVarSitemap[$sitemapurl])
                 : null;
 
+            !isset($this->SessionVarSitemap[$sitemapurl]['id'])
+                ?ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],"error creating a class Sitemap")
+                :null;
 
+                ErrorMessage::create_log(9999,"error refreshing script");
 
 
         }
@@ -56,11 +65,12 @@ class CacheWarmer extends Dbobject
             if (!empty($urls)) {
                 for ($x = $this->SessionVarSitemap[$sitemapurl]['session_sitemap_url_count'] - 1; $x >= 0; $x--) {
 
-                    $url_content = @file_get_contents(trim($urls[$x]), false, $this->context);
+                    if($url_content = @file_get_contents(trim($urls[$x]), false, $this->context)===false){
+                    $this->log[$this->sitemapurl]["error"] = "Problem at loading urls from sitemap, $urls[$x] not found. ";
+                    ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],$this->log[$this->sitemapurl]["error"]);
+                }
 
-                    var_dump($url_content);
-                    die('test');
-                    if ($url_content === FALSE) {
+                if ($url_content === FALSE) {
                         $this->countpagesvisited++;
                         throw new Exception("Cannot access '$urls[$x]' to read contents.");
                     } else {
@@ -95,9 +105,14 @@ class CacheWarmer extends Dbobject
         $urls = array();
         $urlcounter = 0;
 
-        $sitemmap_xml = @file_get_contents($url, false, $this->context);
+        if ($sitemmap_xml = @file_get_contents($url, false, $this->context) === false){
+            $this->log[$this->sitemapurl]["error"] = "Problem findingurl/sitemap, check url/sitemap.";
+            WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],["button"=>'']);
+            ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],$this->log[$this->sitemapurl]["error"]);
+        }
         var_dump($sitemmap_xml);
-        var_dump(@simplexml_load_string(trim($sitemmap_xml)));
+        die();
+
 
 
         if ($sitemap = @simplexml_load_string(trim($sitemmap_xml)) !== false) {
@@ -117,6 +132,8 @@ class CacheWarmer extends Dbobject
                             $urls[] = (string)$url->loc;
                         } else {
                             $urls[] = $parseUrl . (string)$url->loc;
+                            $this->log[$this->sitemapurl]["error"] = "url part missing, check sitemap.";
+                            WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],["button"=>'']);
                             /*error  this*/
 
                         }
@@ -133,13 +150,13 @@ class CacheWarmer extends Dbobject
 
 
             return $urls;
-        }else{
-            $this->log[$this->sitemapurl]["error"] = "Problem at loading urls, check url/sitemap";
+        }/*else{
+            $this->log[$this->sitemapurl]["error"] = "Problem at simplexml_load_string when loading urls, check url/sitemap.";
             WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],["button"=>'']);
-            var_dump($this->SessionVarSitemap);
-            die();
+            ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],$this->log[$this->sitemapurl]["error"]);*/
 
-        }
+
+
 
 
     }

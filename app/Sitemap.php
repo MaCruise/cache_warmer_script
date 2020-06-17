@@ -27,13 +27,15 @@ class Sitemap extends Dbobject
     {
         $sitemap = Sitemap::find_byId($session_id);
         $sitemap->session_sitemap_url_count = $url_count;
-        $sitemap->update();
+        return $sitemap->update();
 
 
     }
     static public function  refresh_sitemap()
     {
-        return static::removeTable_sitemap();
+
+        return $return = (static::removeTable_sitemap())===true?true:ErrorMessage::create_log(0,"error refreshing script");
+
 
 
     }
@@ -44,7 +46,7 @@ class Sitemap extends Dbobject
         $sitemap = Sitemap::find_culomn_input("website_url_id",$id);
 
         return (!isset($sitemap)&&!empty($sitemap))
-            ?die('error')
+            ?ErrorMessage::create_log(0,"error removing script")
             :$sitemap->delete();
 }
 

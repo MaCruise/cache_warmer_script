@@ -41,7 +41,7 @@ $websites = Website::find_all();
                 <div class="mt-1">
                   <!--  <form method="post" name="sitemap_refresh">
                         <input type="hidden" name="hidden">-->
-                        <a href="errors.php" name="submit" value="Create" class="btn shadow-sm border">Error logging</a>
+                        <a href="errormessages.php" name="submit" value="Create" class="btn shadow-sm border">Error logging</a>
                     <!--<a class="btn btn-outline-success rounded mt-4 fetch-form" href="add_website.php">Refresh script</a>-->
                     <!--</form>-->
                 </div>
