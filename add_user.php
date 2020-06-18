@@ -36,9 +36,9 @@ include_once('layout/content-top.php');
             </div>
             <form method="POST" name="user_create" class="form-group p-4 ">
                 <label for="username">Username: </label>
-                <input type="text" name="username" class="form-control">
+                <input type="text" name="username" class="form-control" required >
                 <label for="email">Email: </label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" required >
                 <label for="password">Password: </label>
                 <input type="password" name="password" class="form-control">
                 <div class="border-0 d-flex justify-content-around mt-4">

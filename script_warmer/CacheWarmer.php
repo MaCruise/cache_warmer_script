@@ -64,14 +64,21 @@ class CacheWarmer extends Dbobject
                 for ($x = $this->SessionVarSitemap[$sitemapurl]['session_sitemap_url_count'] - 1; $x >= 0; $x--) {
 
                     $url_content = @file_get_contents(trim($urls[$x]), false, $this->context);
+
                     if (empty($url_content)) {
-                        $this->log[$this->sitemapurl]["error"] = "Problem at loading urls from sitemap, $urls[$x] not found. ";
-                        ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], $this->log[$this->sitemapurl]["error"]);
+
+                        $this->error_message("Problem at loading urls from sitemap, $urls[$x] not found.");
+                        $this->error_message($this->curl_error_test($urls[$x]));
+                        // create a new cURL resource
+
+
+
                     }
 
                     if ($url_content === FALSE) {
                         $this->countpagesvisited++;
-                        throw new Exception("Cannot access '$urls[$x]' to read contents.");
+                        $this->error_message("Cannot access '$urls[$x]' to read contents.");
+                        $this->error_message($this->curl_error_test($urls[$x]));
                     } else {
                         echo "$urls[$x] succes\n";
                         $this->countpagesvisited++;
@@ -80,7 +87,7 @@ class CacheWarmer extends Dbobject
 
                         if ($this->countpagesvisited == $this->SessionVarSitemap[$sitemapurl]['batch'] || $x == 0) {
                             $this->countpagesvisited = 0;
-                            Sitemap::update_sitemap($this->SessionVarSitemap[$sitemapurl]['id'], $x/*$_SESSION[$sitemapurl]['session_sitemap_url_count']*/);
+                            Sitemap::update_sitemap($this->SessionVarSitemap[$sitemapurl]['id'], $x);       /*update sitmap*/
                             $this->continue--;
 
                             continue 2;
@@ -105,10 +112,11 @@ class CacheWarmer extends Dbobject
         $urlcounter = 0;
 
 
-        if(($sitemap_xml = @file_get_contents($url, false, $this->context)) == false){
-            $this->log[$this->sitemapurl]["error"] = "Problem findingurl/sitemap, check url/sitemap.";
-            WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], ["button" => '']);
-            ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], $this->log[$this->sitemapurl]["error"]);
+        if(($sitemap_xml = @file_get_contents($url, false, $this->context)) == false)
+        {
+            $this->error_message("Problem finding url/sitemap, check url/sitemap.",true);
+            $this->error_message($this->curl_error_test($sitemap_xml));
+
         }
 
 
@@ -123,14 +131,18 @@ class CacheWarmer extends Dbobject
                     }
 
                 case 'urlset':
+
                     $parsedUrl = parse_url($this->sitemapurl);
                     $parseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
                     foreach ($sitemap->url as $url) {
+
+                        /*generating pasre url when sitemap xml cuts piece*/
+
                         if (strpos((string)$url->loc, $parseUrl) !== false) {
                             $urls[] = (string)$url->loc;
                         } else {
                             $urls[] = $parseUrl . (string)$url->loc;
-                            $this->log[$this->sitemapurl]["error"] = "url part missing, check sitemap.";
+
 
 
                         }
@@ -147,13 +159,49 @@ class CacheWarmer extends Dbobject
 
             return $urls;
         } else {
-            $this->log[$this->sitemapurl]["error"] = "Problem at simplexml_load_string when loading urls, check url/sitemap.";
-            WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], ["button" => '']);
-            ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], $this->log[$this->sitemapurl]["error"]);
+            $this->error_message("Problem at simplexml_load_string when loading urls, check url/sitemap.",true);
+            $this->error_message($this->curl_error_test($sitemap_xml));
         }
 
 
     }
+
+    function error_message($error,$disableUrl = false){
+        ErrorMessage::create_log($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"],$error);
+        is_bool($disableUrl)===true
+            ?WebsitesController::edit($this->SessionVarSitemap[$this->sitemapurl]["website_url_id"], ["button" => ''])
+            :null;
+        return;
+    }
+
+        function curl_error_test($url) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $responseBody = curl_exec($ch);
+            /*
+             * if curl_exec failed then
+             * $responseBody is false
+             * curl_errno() returns non-zero number
+             * curl_error() returns non-empty string
+             * which one to use is up too you
+             */
+            if ($responseBody === false) {
+                return "CURL Error: " . curl_error($ch);
+            }
+
+            $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            /*
+             * 4xx status codes are client errors
+             * 5xx status codes are server errors
+             */
+            if ($responseCode >= 400) {
+                return "HTTP Error: " . $responseCode;
+            }
+
+            return "No CURL or HTTP Error";
+        }
 
 
 }

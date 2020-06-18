@@ -39,55 +39,59 @@ $users = User::find_all();
 
         </ul>
     </div>
-    <div class="col-8   mt-4">
+    <div class="col-8   mt-4 px-0">
 
-        <div class="card shadow-sm table-responsive">
 
-            <table class="table table-centered table-hover text-center">
 
-                <thead class="">
-                <?php
-                echo User::tableheading();
-                ?>
-                <th scope="col" colspan="2">Quickfix</th>
+            <div class="card shadow-sm table-responsive">
 
-                </thead>
-                <tbody class="card-body">
-                <?php foreach ($users as $user) { ?>
-                    <tr>
-                        <th scope="row" class="valueRowId"><?php echo $user->id; ?></th>
+                <table class="table table-centered table-hover text-center">
 
-                        <td><?php echo $user->username; ?></td>
-                        <td><?php echo $user->email; ?></td>
-                        <td><?php echo $user->password; ?></td>
-                        <td><a class="btn btn-outline-info rounded align-self-center"
-                               href="edit_user.php?id=<?php echo $user->id; ?>">
-                                <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
-                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z"/>
-                                </svg>
-                            </a>
-                        </td>
-                        <td>
+                    <thead class="">
+                    <?php
+                    echo User::tableheading();
+                    ?>
+                    <th scope="col" colspan="2">Quickfix</th>
 
-                            <a href="" name="submit" value="user_delete"
-                               class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
-                                <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
-                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                    <path fill-rule="evenodd"
-                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
-                <?php } ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <?php if (!empty($users)) { ?>
+                    <tbody class="card-body">
+                    <?php foreach ($users as $user) { ?>
+                        <tr>
+                            <th scope="row" class="valueRowId"><?php echo $user->id; ?></th>
 
-        </div>
+                            <td><?php echo $user->username; ?></td>
+                            <td><?php echo $user->email; ?></td>
+                            <td><?php echo $user->password; ?></td>
+                            <td><a class="btn btn-outline-info rounded align-self-center"
+                                   href="edit_user.php?id=<?php echo $user->id; ?>">
+                                    <svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                            <td>
 
+                                <a href="" name="submit" value="user_delete"
+                                   class="btn btn-outline-danger rounded shadow-sm align-self-center form-button_delete">
+                                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                    <?php } ?>
+                </table>
+            </div>
+
+    </div>
 </section>
 
 

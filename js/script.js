@@ -15,8 +15,9 @@ $( document ).ready(function() {
 
 
     $(".fetch-form").on('click',function (event) { //Trigger on form submit
-        event.preventDefault(); //Prevent the default submit
-        event.stopPropagation();
+
+       event.preventDefault(); //Prevent the default submit
+       event.stopPropagation();
 
 
         $('.throw_error').empty(); //Clear the messages first
@@ -47,12 +48,13 @@ $( document ).ready(function() {
                         }
                         $('.throw_error').append(result);
                         $('.alert-message').removeClass("alert-success").addClass("alert-warning").show();
-
                     } else {
                         $('.form-dnone').hide();
                         $('.throw_error').delay( ).html('<span class="throw_error">'+data.posted+'</span>');
 
                         $('.alert-message').removeClass("alert-warning").addClass("alert-success").show();
+
+
                     }
 
                 }
@@ -71,12 +73,12 @@ $( document ).ready(function() {
         event.stopPropagation();
 
 
-        $('.throw_error').empty(); //Clear the messages first
+       /* $('.throw_error').empty(); //Clear the messages first
 
         //Validate fields if required using jQuery
         var form = {name:$(this).closest('form').attr('name')};
 
-        var formGetPostData = $(this).closest('form').serializeArray()
+        var formGetPostData = $(this).closest('form').serializeArray()*/
 
 
         var urlRoute = 'controller/ErrorMessageController.php'
@@ -94,7 +96,6 @@ $( document ).ready(function() {
 
                         result = "";
                         for ( var i = 0; i < data.errors.error.length; i++ ) {
-                            console.log(i)
                             result += '<span class="throw_error">'+data.errors.error[i]+'</span><br>'
                         }
                         $('.throw_error').append(result);
@@ -105,6 +106,7 @@ $( document ).ready(function() {
                         $('.throw_error').delay( ).html('<span class="throw_error">'+data.posted+'</span>');
 
                         $('.alert-message').removeClass("alert-warning").addClass("alert-success").show();
+
                     }
 
                 }

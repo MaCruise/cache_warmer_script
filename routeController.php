@@ -6,19 +6,19 @@ require_once('database/init.php');
 $errors = array(); //To store errors
 $form_data = array(); //Pass back the data to `form.php`
 
+    /*  REQUEST OPVANGEN    */
 
 if (!isset($_REQUEST['formGetPostData'])) {
     $errors["name"] = "Request didnt come through";
 }
 
+    /*  CRUD EDIT ID    */
 isset($_REQUEST['formGetPostData']['valueRowId'])
 
     ?$editID = $_REQUEST['formGetPostData']['valueRowId']
     :$editID = null;
 
-
-/*var_dump($_REQUEST);
-die();*/
+    /*  SPLIT NAME FORM CLASS -CREATE |  UPDATE | DELETE */
 $splitStr = explode("_", trim($_REQUEST['form']['name']));
 
 $className = ucfirst($splitStr[0]);
@@ -27,6 +27,7 @@ $crudName = $splitStr[1];
 
 $_REQUEST['formGetPostData'] = $className::assArray($_REQUEST['formGetPostData']);   /*jquery serializeArray() to associativeArray*/
 
+    /*  SWITCH CLASSES & EXTRA PROPERTIES   */
 
 switch ($className) {
     case 'Framework':
@@ -53,22 +54,11 @@ switch ($className) {
         $blankValue = ["url"];
         $form_data["redirect"] = "websites.php";
         break;
-    case 'Sitemap':
-        /* var_dump(Sitemap::refresh_sitemap());
-         die();*/
-        if (Sitemap::refresh_sitemap()) {
-            $form_data['success'] = true;
-            $form_data['posted'] = 'Successfully refreshed';
-        } else {
-            $form_data['success'] = false;
-            $form_data['posted'] = 'Refresh without success';
-        };
-        echo json_encode($form_data);
-        break;
+
 
 }
 
-
+    /*  CHECK IF EXIST OR BLANK VALUE   */
 
 if(($crudName != 'delete' && !isset($_REQUEST['formGetPostData']['button'])))
 {
@@ -105,13 +95,14 @@ if(($crudName != 'delete' && !isset($_REQUEST['formGetPostData']['button'])))
 
 
 
-// Errors?
+    /*  Errors?  */
 
 if (!empty($errors)) { //If errors in validation
     $form_data['success'] = false;
     $form_data['errors'] = $errors;
 
 } else {
+    /*      CRUD CONTROLLER       */
 
     switch ($crudName) {
 

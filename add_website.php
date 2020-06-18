@@ -67,7 +67,7 @@ $frameworks = Framework::find_all();
                 <label for="name">name: </label>
                 <input type="text" name="name" id="name" class="form-control">
                 <div class="border-0 d-flex justify-content-around mt-4">
-                    <button  name="create_framework" value="Create"
+                    <button  name="create_framework" value="Create" onclick="setTimeout(location.reload(),10000)"
                              class="btn shadow-sm border fetch-form">Create</button>
                 </div>
 

@@ -36,18 +36,19 @@ $frameworks = Framework::find_all();
 
         </ul>
     </div>
-    <div class="col-7 ml-auto mt-4">
+    <div class="col-7 ml-auto mt-4 px-0">
 
         <div class="card shadow-sm table-responsive">
 
-            <table class="table table-centered table-hover text-center">
-                <thead class="">
+            <table class="table table-centered mb-0 table-hover text-center">
+                <thead>
                 <?php
                 echo Framework::tableheading();
                 ?>
                 <th scope="col" colspan="2">Quickfix</th>
 
                 </thead>
+                <?php if(!empty($frameworks)) {?>
                 <tbody class="card-body">
                 <?php foreach ($frameworks as $framework) { ?>
                     <tr>
@@ -78,8 +79,10 @@ $frameworks = Framework::find_all();
                     </tr>
                 <?php } ?>
                 </tbody>
+                <?php } ?>
             </table>
         </div>
+
     </div>
     <div class="col-2 mr-auto mt-4">
         <ul class=" list-unstyled text-center list-group">
